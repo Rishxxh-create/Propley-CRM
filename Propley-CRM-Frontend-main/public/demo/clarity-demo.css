@@ -1,0 +1,537 @@
+/* Propley demo landing — static CSS for reliable Microsoft Clarity session replay */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.clarity-demo-root {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background-color: #fbfbf9;
+  -webkit-font-smoothing: antialiased;
+}
+
+.clarity-demo-root a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.clarity-demo-root img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.clarity-demo-bar {
+  height: 6px;
+  background-color: #8b6b3f;
+  width: 100%;
+}
+
+.clarity-demo-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f2f2f0;
+  background-color: #ffffff;
+}
+
+.clarity-demo-logo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b6b3f;
+}
+
+.clarity-demo-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.clarity-demo-nav-links a:hover {
+  color: #8b6b3f;
+}
+
+.clarity-demo-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #1a1a1a;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clarity-demo-nav-cta:hover {
+  background-color: #8b6b3f;
+}
+
+.clarity-demo-hero {
+  position: relative;
+  min-height: 72vh;
+  display: grid;
+  align-items: end;
+  padding: 3rem 1.5rem 4rem;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.clarity-demo-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.45;
+}
+
+.clarity-demo-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.clarity-demo-eyebrow {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffc977;
+  margin-bottom: 1rem;
+}
+
+.clarity-demo-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.clarity-demo-hero p {
+  margin: 0 0 2rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 36rem;
+}
+
+.clarity-demo-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.clarity-demo-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  background-color: #ffc977;
+  border: none;
+  cursor: pointer;
+}
+
+.clarity-demo-btn-primary:hover {
+  background-color: #ffd383;
+}
+
+.clarity-demo-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.clarity-demo-btn-ghost:hover {
+  border-color: #ffc977;
+  color: #ffc977;
+}
+
+.clarity-demo-section {
+  padding: 4rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.clarity-demo-section-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.clarity-demo-section-rule {
+  width: 4rem;
+  height: 2px;
+  background-color: #8b6b3f;
+  margin-bottom: 2rem;
+}
+
+.clarity-demo-grid-3 {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .clarity-demo-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.clarity-demo-card {
+  background-color: #ffffff;
+  border: 1px solid #f2f2f0;
+  padding: 1.5rem;
+}
+
+.clarity-demo-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.clarity-demo-card p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #52525b;
+  line-height: 1.6;
+}
+
+.clarity-demo-gallery {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (min-width: 768px) {
+  .clarity-demo-gallery {
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 220px 220px;
+  }
+
+  .clarity-demo-gallery-item:first-child {
+    grid-row: span 2;
+  }
+}
+
+.clarity-demo-gallery-item {
+  position: relative;
+  min-height: 180px;
+  overflow: hidden;
+  background-color: #f2f2f0;
+}
+
+.clarity-demo-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clarity-demo-gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
+  background: linear-gradient(transparent, rgba(10, 10, 10, 0.75));
+  color: #ffffff;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.clarity-demo-cta-band {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  padding: 4rem 1.5rem;
+}
+
+.clarity-demo-cta-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.clarity-demo-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.clarity-demo-form label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+}
+
+.clarity-demo-form input {
+  width: 100%;
+  padding: 0.75rem 0;
+  font-size: 0.9375rem;
+  color: #ffffff;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+
+.clarity-demo-form input:focus {
+  border-bottom-color: #ffc977;
+}
+
+.clarity-demo-footer {
+  padding: 2rem 1.5rem;
+  border-top: 1px solid #f2f2f0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.6875rem;
+  color: #71717a;
+}
+
+.clarity-demo-badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b6b3f;
+  background-color: rgba(139, 107, 63, 0.12);
+  border: 1px solid rgba(139, 107, 63, 0.3);
+}
+
+.clarity-demo-badge-live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #8b6b3f;
+}
+
+/* Analytics hub */
+.clarity-analytics-shell {
+  min-height: 100vh;
+  background-color: #fbfbf9;
+}
+
+.clarity-analytics-header {
+  padding: 2rem 1.5rem 1.5rem;
+  border-bottom: 1px solid #f2f2f0;
+  background-color: #ffffff;
+}
+
+.clarity-analytics-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.clarity-analytics-header p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #52525b;
+}
+
+.clarity-analytics-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.clarity-analytics-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background-color: #ffffff;
+  border: 1px solid #f2f2f0;
+}
+
+.clarity-analytics-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+}
+
+.clarity-analytics-status-dot.pending {
+  background-color: #eab308;
+}
+
+.clarity-analytics-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .clarity-analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.clarity-analytics-panel {
+  background-color: #ffffff;
+  border: 1px solid #f2f2f0;
+  padding: 1.25rem 1.5rem;
+}
+
+.clarity-analytics-panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.clarity-analytics-link-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.clarity-analytics-link-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  background-color: #fbfbf9;
+  border: 1px solid #f2f2f0;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.clarity-analytics-link-list a:hover {
+  border-color: #8b6b3f;
+  color: #8b6b3f;
+}
+
+.clarity-analytics-tips {
+  font-size: 0.8125rem;
+  color: #52525b;
+  line-height: 1.65;
+}
+
+.clarity-analytics-tips li {
+  margin-bottom: 0.5rem;
+}
+
+.clarity-analytics-code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  background-color: #f2f2f0;
+  padding: 0.15rem 0.35rem;
+  color: #1a1a1a;
+}
+
+.clarity-analytics-full {
+  grid-column: 1 / -1;
+}
+
+.clarity-analytics-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.clarity-analytics-select {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  border: 1px solid #f2f2f0;
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.clarity-analytics-table-wrap {
+  overflow-x: auto;
+  margin-top: 0.75rem;
+}
+
+.clarity-analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+.clarity-analytics-table th,
+.clarity-analytics-table td {
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid #f2f2f0;
+}
+
+.clarity-analytics-table th {
+  font-weight: 600;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.625rem;
+}
+
+.clarity-analytics-error {
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.clarity-analytics-muted {
+  font-size: 0.75rem;
+  color: #71717a;
+  margin: 0.5rem 0 0;
+}

@@ -1,0 +1,250 @@
+Propley — Detailed Product Testing Report
+
+Product Overview
+Propley is a real estate Sales CRM built around virtual property presentations (called "presentations" or "VSVs"). It allows sales advisors/consultants to schedule, host, and track immersive property showcase sessions with clients and prospects. The system covers six main areas: Dashboard, Presentations (Table + Calendar), Pipeline, Customers/Clients, Analytics, and Team Settings.
+
+Module-by-Module Testing Results
+
+1. Dashboard (/)
+What's Working:
+Greeting message is personalized: "Good morning, Tapaswin. Here is your pipeline today."
+KPI summary cards show: Total Clients (4), Active Clients (4), Total Meetings (20), Active Meetings (11), Completed Meetings (9).
+Total Engagement (230) and Total Attendees (143) are rendered.
+Sales Pipeline chart renders with stage labels: Inquiries, Site Visits Scheduled, Site Visits Done, Offers, Negotiation, Closed Won.
+Lead Sources chart renders with source labels (Referral × 1, Google × 3).
+Top Cities chart renders with Bhubaneswar and Mumbai.
+"Schedule presentation" shortcut CTA is present and links correctly.
+Issues / What's Not Working:
+Dashboard KPI cards are label-only — no numbers are displayed for "Total Clients," "Active Clients," "Total Meetings," etc. The labels render but the actual numeric values are missing from their respective card bodies (the page text shows them stacked as labels without associated counts formatted alongside). This appears to be a data binding or render gap.
+The Lead Sources section only shows 2 sources (Referral and Google), and Referral shows a count of "1." This is likely incomplete data rather than a display bug, but there is no "no data" state for other channels.
+Top Cities only shows 2 cities (Bhubaneswar, Mumbai) — consistent with the 4 client records, but geographic coverage is sparse.
+No date range filter on the dashboard. All stats are aggregate totals with no way to view "this week," "this month," etc.
+No export or download button for the dashboard data.
+No recent activity feed showing the latest meeting, new client added, or stage change.
+
+2. Presentations List (/meetings)
+What's Working:
+Table view displays all 20 presentations with correct columns: Status, Advisor, Meeting For (client), Join & share, Date & time, Actions.
+Status badges are shown: Live, Scheduled, Completed, Canceled — with counters (Live: 9, Scheduled: 2, Completed: 9, Canceled: 0).
+Quick-filter tabs for each status (Live / Scheduled / Completed / Canceled) are present.
+Each row has an "Advisor View" button linking to /moderator/{id}.
+A second "Open presentation actions" expand panel works on each row, revealing: Add to Google Calendar link, participant count, "Enter Sales Portal" and "Share invitation" buttons.
+Google Calendar links are properly constructed with event title, time, and join URL.
+"New presentation" button links to /meetings/new.
+Table and Calendar toggle buttons work.
+Bulk select toggle button is present.
+Issues / What's Not Working:
+"Canceled" count is 0 — no canceled presentations exist, so it's impossible to test whether cancellation and the Canceled state work end-to-end.
+Bulk select appears twice (once in the toolbar and once inline above the table). The second one seems redundant and could confuse users.
+Filters button exists but its functionality is not testable from this context — it was not possible to interact with it to see what filter options it exposes. It is unclear whether filtering by advisor, date range, project, or client name is supported.
+The "Advisor" column sometimes shows a username/email (e.g., srn@gmail.com, tapaswin) rather than a full display name. This inconsistency is a data normalization issue.
+"Meeting For" (client name) field shows "Instant Presentation" for some rows instead of a real client name, suggesting some sessions were launched without being linked to a client record.
+"—" (dash) in the participants column for multiple sessions indicates participant count data is not always populated.
+No pagination — all 20 records load in a flat list with no page controls. This will not scale well.
+No search bar on the Presentations list page (unlike the Customers page which does have one).
+
+3. Presentations Calendar (/meetings/calendar)
+What's Working:
+Full monthly calendar renders for June 2026.
+Presentations appear on correct dates with status color indicators.
+Day, Week, Month toggle buttons are present.
+"Today" button works.
+Previous/Next navigation buttons work.
+Clicking a date cell shows "Presentations on this day" in a side panel.
+Each session on the calendar links to /moderator/{id}.
+"+1 more" overflow indicator appears when multiple events fall on the same day cell.
+Issues / What's Not Working:
+Week view and Day view are present but were not fully tested — if they mirror the month view they likely work, but session details in these views may differ.
+"No presentations on this day" panel appears when clicking on June 9 (today) — it is unclear why today shows no presentations even though the Live counter shows 9 active sessions, some of which are technically indefinitely running.
+Completed sessions still show on the calendar alongside live/scheduled ones, creating visual noise. There is no filter to show only upcoming/scheduled on the calendar.
+No ability to click-to-create a new presentation directly from a calendar day cell — the only way to schedule is via the top CTA or the Shortcuts link.
+
+4. Schedule Presentation (/meetings/new)
+What's Working:
+Form is well structured with: Development project selector, Client segment toggle (Existing customer / New prospect), Primary client selector with search, Session date picker, and Preferred time (Hour / Minute / Period dropdowns).
+Live summary panel on the right updates in real time with selected values.
+Auto-invite notification text explains that scheduling sends email invites and calendar blocks automatically.
+Both Email invitation and WhatsApp message options are shown as auto-delivery channels.
+The "Schedule presentation" button is disabled until all required fields are filled (validated client, project, date, and time).
+The form correctly pre-fills the client when opened via /meetings/new?client=12 from the client profile.
+Issues / What's Not Working:
+Development project selector shows "No project selected" as default — but project selection seems to be required. When no project is selected in the sidebar (context shows "Select project"), the form still opens. There is no clear validation error shown in real time.
+No multi-client selection — the form only supports one primary client. Presentations commonly involve couples or partners in real estate; there's no way to add a secondary attendee.
+No notes/agenda field in the scheduling form — there is no way for the advisor to add a pre-session note or agenda for the client.
+WhatsApp send status is unknown — the form shows the WhatsApp message as an auto-delivery channel, but there is no confirmation or test mechanism visible to verify it actually works.
+No time zone selection — the time picker offers hour, minute, and AM/PM but no time zone. For remote presentations across cities/countries, this is a gap.
+No recurring/repeat session option.
+No duration selector — all sessions default to 1 hour in the Google Calendar event description. Duration is not configurable.
+
+5. Pipeline (/pipeline)
+What's Working:
+Kanban board renders with column stages: Inquiry, VSV Scheduled, VSV Done, Offer, Negotiation, Closed – Won.
+Each client card shows the client name, phone number, lead source icon (Google logo), and quick action buttons.
+"Add Note" and "Add Info" quick-action buttons are present on each card.
+Client cards are drag-and-drop capable (accessible help text: "Press space bar to start a drag. When dragging you can use the arrow keys to move the item around").
+Search bar is present to filter clients.
+"Add client" button is present.
+Clicking a client name links to their profile at /customers/{id}.
+Issues / What's Not Working:
+"VSV Done," "Negotiation," and "Closed – Won" columns appear empty — no clients are in these stages. This means the later-stage pipeline functionality has not been tested with real data.
+"Add Note" modal behavior — was not fully verifiable through accessibility-only testing, so it is unknown whether a note is successfully saved.
+"Add Info" action — unclear what additional info fields it opens. No visible modal was detected in the DOM structure.
+No stage count badges on each column header to show how many clients are at each stage.
+No column-level summary (e.g., total deal value or number of days in stage).
+No "Lost"/"Closed – Lost" stage in the pipeline. Real estate deals often fall through, and there is no way to mark a deal as lost.
+No due date or follow-up reminder on pipeline cards.
+
+6. Customers / Clients (/customers)
+What's Working:
+Client list table renders with columns: Name, Contact (email + phone), City, Pipeline Stage, Actions.
+Active status badge is shown per client.
+"Profile" link navigates to the client detail page.
+Stage filter dropdown ("All stages") is present.
+Search box works (visible with placeholder "Search clients…").
+"Add client" button is present.
+Issues / What's Not Working:
+Only 4 clients are in the system — no new client creation was tested end-to-end. The "Add client" button is present but its form/modal could not be confirmed as functional.
+Duplicate client records exist: "Tapaswin Padhy" appears twice (IDs 8 and 12) with the same email and phone. There is no duplicate detection or merge feature.
+Stage filter does not show counts next to each stage option — it's unclear how many clients are in each stage without manually filtering.
+No export option (CSV/Excel) from the Clients list.
+No sort controls on the table columns.
+
+7. Client Profile (/customers/{id})
+What's Working:
+Four-tab profile layout: Overview, Activity Timeline, Presentations, Advisor Notes.
+Overview shows: client name, pipeline stage badge, assigned advisor name, email, phone, city, lead source.
+Deal pipeline progress bar renders with all 6 stages marked and the current stage highlighted.
+Individual stage buttons on the pipeline progress tracker are clickable (presumably to manually advance the stage).
+Quick action buttons: "Schedule presentation" (with pre-filled client ID) and "Delete client."
+"Edit client profile" button is present.
+"Back to clients" navigation works.
+Issues / What's Not Working:
+Assigned advisor is "Priya Sharma" for a client owned by "Tapaswin Padhy" — this mismatch suggests either the advisor assignment isn't being respected or test data is inconsistent.
+Activity Timeline tab — the tab button is present and clickable, but the content could not be confirmed as populating with actual activity data.
+Presentations tab — should list linked presentations for this specific client, but content could not be fully verified.
+Advisor Notes tab — should allow the advisor to write and save structured notes per client. The form/save mechanics were not verifiable.
+"Edit client profile" modal — what fields are editable is not visible. It is unknown whether pipeline stage, lead source, assigned advisor, or contact details can all be edited.
+No WhatsApp direct message button — the phone number is displayed but there is no click-to-WhatsApp shortcut despite WhatsApp being a core communication channel in the product.
+No call logging on the client profile.
+No linked property interest — there is no field to indicate which property or project this client is interested in.
+
+8. Moderator / Sales Portal (/moderator/{id})
+What's Working:
+The moderator view launches and identifies the client ("Client: Test John").
+A session timer runs from when the view opens.
+The slide deck renders (showing "01. Welcome" as the first slide, 01/27 total).
+Navigation controls: previous/next slide buttons, slide search combobox.
+Toolbar includes: Toggle Annotation, Share screen, Devices, End session button.
+Active Clients panel shows connected clients in real time (though count was 0 in testing).
+Advisor name and location (Bhubaneswar, India) shown in the participant sidebar.
+"Session Notes" button is present in the header.
+Bandwidth indicator is shown ("Low Bandwidth" label with "Click to see stats").
+Issues / What's Not Working:
+Active Clients shows "(0)" even for a completed session with 7+ recorded participants. There is no historical participant view.
+"Low Bandwidth" warning appears immediately — either the demo environment always has this label, or there is a genuine latency issue with the media server.
+No slide thumbnail panel — the advisor must navigate through 27 slides sequentially without a thumbnail overview to jump directly to a specific slide.
+"Share screen" button exists but screen sharing functionality could not be tested in the automated context.
+No client engagement feedback visible in real time (e.g., is the client watching? Have they engaged with the material?).
+Completed sessions are still openable in full moderator view — there is no read-only/replay mode vs. live mode distinction.
+Navigating away from the moderator view causes the next page to render blank — a full page reload is required to recover. This is a significant bug.
+
+9. Participant View (/participant/{id})
+What's Working:
+Participant view loads with advisor name (Satish Guru) and current user shown.
+Controls: Mute, Stop Cam, Devices, Toggle Presence, and Hang Up.
+"Property Walkthrough" label in the main content region is visible.
+Issues / What's Not Working:
+The presentation content does not load — only "Loading Presentation…" was visible in the content area. The client-side slide viewer may need a live connection to the moderator stream to render.
+No chat or Q&A panel visible on the participant side.
+No participant profile prompt — when a new anonymous user joins, they are not asked for their name or contact details, which means unregistered attendees generate no CRM data.
+"Toggle Presence" button is present but its behavior is unclear — it may toggle the client's video feed visibility.
+
+10. Analytics (sidebar button)
+Issue: The "Analytics" item in the sidebar navigation is a button, not a link — it does not navigate anywhere. Clicking it does not open any analytics page or panel. This feature appears to be a placeholder / not yet implemented.
+
+11. Team Access (sidebar button)
+Issue: Similarly, "Team Access" is a button with no active navigation target. No team management interface opens. This feature is also a placeholder / not yet implemented.
+
+12. Voice Assistant
+What's Working: A "Toggle Voice Console (Cmd+K)" button and "Toggle voice assistant" button are present across all pages — suggesting a voice-based interaction layer is built into the product.
+Issues / What's Not Working: The voice assistant could not be tested in the automated context. Its capabilities, supported commands, and accuracy are unknown.
+
+Cross-Cutting Bugs Found
+#
+Bug
+Severity
+Module
+1
+Navigating away from /moderator/{id} causes the next page to render blank (requires full reload)
+Critical
+Moderator View
+2
+Analytics page not implemented — button goes nowhere
+High
+Navigation
+3
+Team Access page not implemented — button goes nowhere
+High
+Navigation
+4
+Duplicate client records with same email/phone (no deduplication)
+High
+Customers
+5
+"Live" status incorrectly persists on old sessions from April/May 2026
+Medium
+Presentations
+6
+Participant count shows "—" on multiple sessions
+Medium
+Presentations
+7
+Advisor shown as "srn@gmail.com" instead of display name in some rows
+Medium
+Presentations
+8
+Assigned advisor on client profile mismatches the logged-in advisor
+Medium
+Client Profile
+9
+No client name linked to "Instant Presentation" sessions
+Medium
+Presentations
+10
+Participant view slide content does not load
+Medium
+Participant View
+
+
+Feature Recommendations (What to Add)
+High Priority:
+Closed-Lost pipeline stage — real estate deals often fall through; advisors need a way to mark them lost without deleting the client.
+Date range filtering on the Dashboard — weekly/monthly views for KPIs and charts.
+Analytics module — currently a dead button. At minimum: session attendance trends, stage conversion rates, advisor performance, average deal cycle time.
+Pagination or infinite scroll on the Presentations list — 20 records load fine but will break at scale.
+Search bar on Presentations list — currently missing, unlike the Customers page.
+Duplicate client detection — warn or block when the same email/phone is being added again.
+Medium Priority:
+Multi-client scheduling — support adding a partner/co-attendee to a session.
+Pre-session notes/agenda in scheduling form — let the advisor set the tone before the session.
+Time zone selector in scheduling — critical for advisors presenting to NRI or out-of-city clients.
+Click-to-WhatsApp on client profiles — one-tap messaging from the phone number field.
+Slide thumbnail panel in the moderator view — so the advisor can jump to any slide during a live presentation.
+Replay/read-only mode for completed sessions — separate from the live presenter view.
+Team Access module — user roles (Admin, Advisor, Viewer), invite by email, permission management.
+Property interest field on client profile — link a client to one or more projects/units they are interested in.
+Nice to Have:
+Call log and WhatsApp history on the client activity timeline.
+Follow-up reminders / task creation from the pipeline card.
+Column-level deal value and days-in-stage on the Pipeline kanban.
+CSV/Excel export for client and presentation data.
+Mobile-responsive layout testing — the current viewport is desktop-only; mobile is untested.
+Recurring presentation option for standing weekly tours.
+Real-time client engagement signal in the moderator view (e.g., "Client is viewing slide 4").
+Participant name capture when an anonymous user joins via share link.
+
+Summary
+Propley's core functionality — scheduling, hosting, and tracking virtual property presentations — works. The presentation moderator interface, client profile with pipeline tracking, and the scheduling form with auto-invite are solid foundations. The main concerns are: stale "Live" statuses on old sessions, two entire navigation items (Analytics and Team Access) that lead nowhere, a page-blanking bug when leaving the moderator view, and missing depth in the client profile tabs (Activity, Notes). The product is clearly in active development and would benefit most immediately from fixing the moderator navigation bug, implementing the Analytics module, and adding the Closed-Lost stage to the pipeline.
+
+
+

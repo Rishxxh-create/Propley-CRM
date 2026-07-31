@@ -1,0 +1,31 @@
+{
+  "name": "propley-voice-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --target node20 --clean --sourcemap --external @livekit/rtc-node --external @livekit/rtc-ffi-bindings",
+    "dev": "npm run build && node dist/index.js dev",
+    "start": "node dist/index.js start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@livekit/agents": "1.5.1",
+    "@livekit/agents-plugin-google": "1.5.1",
+    "@livekit/agents-plugin-sarvam": "1.5.1",
+    "@livekit/agents-plugin-silero": "1.5.1",
+    "@livekit/noise-cancellation-node": "0.1.10",
+    "@livekit/rtc-node": "0.13.31",
+    "dotenv": "17.4.2",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.43",
+    "livekit-server-sdk": "2.17.0",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

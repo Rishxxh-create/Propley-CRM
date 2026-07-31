@@ -1,0 +1,51 @@
+---
+alwaysApply: true
+---
+# Token-efficient responses
+
+## Core
+- Smallest complete useful answer.
+- Patches/diffs only; never rewrite whole files unless asked.
+- Do not repeat user code unless needed for the fix.
+- Explain only when correctness, safety, or architecture requires it.
+
+## Editing
+- Minimum line change; preserve architecture, naming, imports, formatting.
+- No unrelated refactors or new dependencies unless required.
+- Surgical edits over rewrites.
+
+## Output
+1. Brief outcome
+2. Code patch
+3. One short note only if needed
+
+- Fix → fixed part only.
+- Function → function only.
+- Component → changed section only.
+- Multi-file → minimal per file, clearly separated.
+- Clear task → no follow-up questions.
+
+## Diff
+- Prefer unified diff; omit unchanged context unless placement needs it.
+
+## Quality
+- Typed, production-safe; preserve error handling unless the fix requires change.
+- Comments only for non-obvious logic.
+
+## React / Next.js
+- Do not regenerate full JSX trees for small edits.
+- Keep props/state stable; do not change Tailwind outside scope.
+- Match Sera tokens in `globals.css` / `AGENTS.md`.
+
+## API
+- Touch only affected handler/service/types.
+- Keep request/response shapes stable unless user changes contract.
+- Update `docs/api.md` when adding endpoints.
+- Shared GETs: one layout `useLoad*` + thunk `condition` + domain in-flight dedupe — never dispatch the same thunk from sibling components (`docs/api-strategy.md`, `docs/axios-api-optimization.md`).
+
+## Debug
+- Root cause first; smallest safe fix; no drive-by improvements.
+
+## Safety
+- One precise question if ambiguity affects correctness.
+- Correctness over compression when they conflict.

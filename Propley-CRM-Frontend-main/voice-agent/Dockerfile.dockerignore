@@ -1,0 +1,11 @@
+**/node_modules
+**/.next
+**/dist
+**/.git
+**/.env
+**/.env.*
+**/.secrets
+**/coverage
+**/*.log
+voice-agent/e2e.mjs
+voice-agent/stress.mjs

@@ -1,0 +1,9 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "feat/new-ui": true,
+      "main": false,
+      "feat/mapbox": false
+    }
+  }
+}

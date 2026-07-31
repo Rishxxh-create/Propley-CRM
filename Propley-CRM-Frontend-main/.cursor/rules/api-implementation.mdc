@@ -1,0 +1,59 @@
+---
+description: API layer conventions — direct backend calls, deduplicated GETs, unified apiClient
+globs:
+  - src/lib/api/**
+  - src/app/api/auth/**
+  - src/store/slices/**Thunks.ts
+  - src/store/hooks/**
+  - docs/api*.md
+---
+
+# API implementation
+
+**Architecture:** Browser directly communicates with backend (`NEXT_PUBLIC_BACKEND_URL`) bypassing Next.js API route proxies.
+
+## Stack
+
+- **Unified HTTP Client:** `src/lib/api/api-client.ts` — `apiClient` instance configured with `NEXT_PUBLIC_BACKEND_URL`.
+- **Token Injection:** Handled automatically via Axios interceptors in `apiClient` using `localStorage.getItem('propley_auth_token')`.
+- **Dedupe Core:** `src/lib/api/core/deduped-get.ts` — `createSingletonGet` / `createKeyedGet` for caching multiple parallel GETs.
+- **Authentication:** `POST /api/auth/login` sets `httpOnly` cookies (for Next.js Middleware) and the frontend also persists the token to `localStorage` for direct `apiClient` usage.
+
+## Layer diagram
+
+```
+UI → domain.ts (deduped-get / apiClient mutation) → NEXT_PUBLIC_BACKEND_URL
+```
+
+Auth POST/login: explicit `app/api/auth/*/route.ts` remains active to persist session cookies.
+
+## File layout
+
+| Layer | Path | Notes |
+|----|---|-----|
+| Client | `api-client.ts` | Unified Axios instance. Inject auth token here. |
+| Types | `types/<domain>.ts` | All payload and response types for a domain. |
+| Domain | `<domain>.ts` | `createSingletonGet` / `createKeyedGet` + `apiClient` mutations. |
+| Auth | `auth.ts` | Stores `propley_auth_token` in localStorage and calls `app/api/auth/login`. |
+
+## Adding an authenticated GET/POST (checklist)
+
+1. Define interface in `types/<domain>.ts`
+2. Create or open `<domain>.ts`
+3. Import `apiClient` from `api-client.ts`
+4. For GETs: Use `createSingletonGet` or `createKeyedGet` mapped to the backend path (e.g. `/projects`).
+5. For Mutations: Write an async function that calls `await apiClient.post(...)`.
+6. Redux: thunk `condition` + `signal`; **one** `useLoad*` in layout.
+
+## Conventions
+
+- **Retry:** Use `withRetry` on idempotent reads only if needed.
+- **Cancel:** thunk `signal` → Axios `{ signal }`
+- **Thunk `condition`:** skip when `loading` or `loaded`; allow `error` retry
+- **Do not** dispatch the same GET thunk from Sidebar + page.
+
+## Do not
+
+- Create proxy routes inside `src/app/api/v1/...`. The BFF layer is deprecated.
+- Create multiple `<domain>Client.ts` files. Always use the unified `apiClient`.
+- Manually append `Authorization` headers to your fetches. Use the unified `apiClient`.
